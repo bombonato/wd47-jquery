@@ -1,0 +1,17 @@
+* {
+    margin:0; // margin entre a borda e os outros elementosda página
+    padding: 0; // margin interna entre borda e elemento
+}
+body {
+     background: #e8e8e8;   
+}
+h1 {
+    background: #3b89da;
+    padding: 16px // margin interna entre borda e elemento
+}
+
+.cartao {
+    background: #ebef40;
+    margin: 16px;
+    padding: 16px;
+}
