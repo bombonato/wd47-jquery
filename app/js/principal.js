@@ -54,7 +54,8 @@ function removeCartao() {
     }, 170);
 }
 
-var formulario = document.querySelector('.novoCartao');
+// ### JAVASCRIPT PURO ####
+/* var formulario = document.querySelector('.novoCartao');
 formulario.addEventListener('submit', salvaCartao);
 
 function salvaCartao(evento) {
@@ -78,4 +79,51 @@ function salvaCartao(evento) {
     //mural.appendChild(novoCartao); // Insere no Final
     mural.insertBefore(novoCartao, mural.firstElementChild); // Adiciona o cartão antes do primeiro filho atual
     console.log(mural);
+} */
+
+// ##### COM JQUERY ######
+var contador = $('.cartao').length;
+// jQuery() ou $() - para indicar o uso do jQuery
+// Não retorna um elemento do DOM, mas um objeto jQuery
+$('.novoCartao').submit(salvaCartaoJquery);
+
+function salvaCartaoJquery(evento) {
+    evento.preventDefault(); //prevenir a execução do evento default, no caso não executr o submit
+
+    // Obtendo dados digitados pelo usuário
+    var campoConteudo = $('.novoCartao-conteudo', this);
+    var textoDigitado = campoConteudo.val();
+    console.log(textoDigitado);
+
+    contador++;
+
+    // Criando o conteúdo do novo Cartão
+    var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').text(textoDigitado);
+    console.log(conteudoNovoCartao);
+
+    // Opções do Cartãos
+    var botaoRemove = $('<button>')
+        .addClass('opcoesDoCartao-opcao opcoesDoCartao-remove')
+        .text('Remove')
+        .click(removeCartao)
+        .attr('data-idcartao', contador);
+
+    var opcoesDoCartao = $('<div>').addClass('opcoesDoCartao')
+        .append(botaoRemove);
+
+
+    // Criando a div do novo Cartao e adicionar o Botão e o Conteudo
+    var novoCartao = $('<div>').addClass('cartao')
+        .append(opcoesDoCartao)
+        .append(conteudoNovoCartao)
+        .attr('id', 'cartao' + contador);
+    console.log(novoCartao);
+
+    // Atibuindo a section
+    $('.mural').prepend(novoCartao);
+
+    //OU
+    //$('<div>').addClass('cartao').append(conteudoNovoCartao).prependTo(novoCartao);
+
+
 }
