@@ -92,8 +92,12 @@ function salvaCartaoJquery(evento) {
 
     // Obtendo dados digitados pelo usuário
     var campoConteudo = $('.novoCartao-conteudo', this);
-    var textoDigitado = campoConteudo.val();
+    var textoDigitado = campoConteudo.val().trim().replace(/\n/g, '<br>');
+    console.log("tam (" + textoDigitado.length + ")");
     console.log(textoDigitado);
+
+    //if (textoDigitado.length <= 0) return;
+    if (!textoDigitado) return;
 
     contador++;
 
