@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css\opcoesDaPagina.css">
     <link rel="stylesheet" href="css\cartao.css">
     <link rel="stylesheet" href="css\opcoesDoCartao.css">
+    <link rel="stylesheet" href="css\novoCartao.css">
 </head>
 
 <body>
@@ -19,8 +20,15 @@
             <!-- <button id="mudaLayout" class="opcoesDaPagina-botao opcoesDaPagina-opcao" onclick="alterarLayout()">Linhas</button> -->
             <button id="mudaLayout" class="opcoesDaPagina-botao opcoesDaPagina-opcao">Linhas</button>
         </div>
-
     </header>
+
+    <!-- EMMET:
+    form.container.novoCartao>textarea.novoCartao-conteudo[placeholder="Digite aqui"][name="novoCartao-conteudo"]
+    input:submit.novoCartao-salvar[value="Salvar"] -->
+    <form action="" class="container novoCartao">
+        <textarea name="novoCartao-conteudo" id="" cols="30" rows="10" class="novoCartao-conteudo" placeholder="Digite aqui"></textarea>
+        <input type="submit" value="Salvar" class="novoCartao-salvar">
+    </form>
 
     <section class="container mural">
         <div class="cartao" id="cartao1">

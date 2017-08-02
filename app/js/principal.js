@@ -11,6 +11,7 @@ document.querySelector('#mudaLayout').addEventListener('click', function() {
 
     //pegar o elemnto com a classe mural
     var mural = document.querySelector('.mural');
+    cartao - conteudo
 
     //Tira ou coloca a classe
     mural.classList.toggle('mural--linhas');
@@ -51,4 +52,30 @@ function removeCartao() {
     setTimeout(function() {
         cartao.remove();
     }, 170);
+}
+
+var formulario = document.querySelector('.novoCartao');
+formulario.addEventListener('submit', salvaCartao);
+
+function salvaCartao(evento) {
+    evento.preventDefault(); //prevenir a execução do evento default, no caso não executr o submit
+    var campoConteudo = document.querySelector('.novoCartao-conteudo');
+    var textoDigitado = campoConteudo.value;
+    console.log(textoDigitado);
+    // Criando o conteũdo do novo Cartão
+    var conteudoNovoCartao = document.createElement('p');
+    conteudoNovoCartao.classList.add('cartao-conteudo');
+    conteudoNovoCartao.textContent = textoDigitado;
+    console.log(conteudoNovoCartao);
+    // Criando a div do novo Cartao
+    var novoCartao = document.createElement('div');
+    novoCartao.classList.add('cartao');
+    //novoCartao.innerHTML = conteudoNovoCartao; // esse nao funciona pois innerHTML só para texto
+    novoCartao.appendChild(conteudoNovoCartao);
+    console.log(novoCartao);
+    // Atibuindo a section
+    var mural = document.querySelector('.mural');
+    //mural.appendChild(novoCartao); // Insere no Final
+    mural.insertBefore(novoCartao, mural.firstElementChild); // Adiciona o cartão antes do primeiro filho atual
+    console.log(mural);
 }
