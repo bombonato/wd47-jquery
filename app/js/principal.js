@@ -96,10 +96,16 @@ function salvaCartaoJquery(evento) {
     var textoDigitado = campoConteudo.val()
         .trim()
         .replace(/\n/g, '<br>')
-        .replace(/\*\*\b/g, '<b>') //fazer **texto** para negrito
-        .replace(/\b\*\*/g, '</b>') //fazer **texto** para negrito
-        .replace(/\*\b/g, '<em>') //fazer *texto* para italico
-        .replace(/\b\*/g, '</em>') //fazer *texto* para italico
+        .replace(/(\*\*)(\w+)(\*\*)/g, function(match, p1, p2, p3, offset, string) {
+            return '<b>' + p2 + '</b>';
+        })
+        .replace(/(\*)(\w+)(\*)/g, function(match, p1, p2, p3, offset, string) {
+            return '<em>' + p2 + '</em>';
+        });
+    //.replace(/\*\*\b/g, '<b>') //fazer **texto** para negrito
+    //.replace(/\b\*\*/g, '</b>') //fazer **texto** para negrito
+    //.replace(/\*\b/g, '<em>') //fazer *texto* para italico
+    //.replace(/\b\*/g, '</em>') //fazer *texto* para italico
     console.log("tam (" + textoDigitado.length + ")");
     console.log(textoDigitado);
 
