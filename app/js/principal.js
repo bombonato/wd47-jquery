@@ -91,8 +91,15 @@ function salvaCartaoJquery(evento) {
     evento.preventDefault(); //prevenir a execução do evento default, no caso não executr o submit
 
     // Obtendo dados digitados pelo usuário
+    // https://regex101.com/
     var campoConteudo = $('.novoCartao-conteudo', this);
-    var textoDigitado = campoConteudo.val().trim().replace(/\n/g, '<br>');
+    var textoDigitado = campoConteudo.val()
+        .trim()
+        .replace(/\n/g, '<br>')
+        .replace(/\*\*\b/g, '<b>') //fazer **texto** para negrito
+        .replace(/\b\*\*/g, '</b>') //fazer **texto** para negrito
+        .replace(/\*\b/g, '<em>') //fazer *texto* para italico
+        .replace(/\b\*/g, '</em>') //fazer *texto* para italico
     console.log("tam (" + textoDigitado.length + ")");
     console.log(textoDigitado);
 
@@ -102,7 +109,9 @@ function salvaCartaoJquery(evento) {
     contador++;
 
     // Criando o conteúdo do novo Cartão
-    var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').text(textoDigitado);
+    // .text() pega como texto puro, não interpreta o html
+    //var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').text(textoDigitado); 
+    var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').html(textoDigitado);
     console.log(conteudoNovoCartao);
 
     // Opções do Cartãos
@@ -115,9 +124,13 @@ function salvaCartaoJquery(evento) {
     var opcoesDoCartao = $('<div>').addClass('opcoesDoCartao')
         .append(botaoRemove);
 
+    var tamanhoCartao = decideTamanhoCartao(textoDigitado);
+    console.log('classe tam cartao: ' + tamanhoCartao);
 
     // Criando a div do novo Cartao e adicionar o Botão e o Conteudo
-    var novoCartao = $('<div>').addClass('cartao')
+    var novoCartao = $('<div>')
+        .addClass('cartao')
+        .addClass(tamanhoCartao)
         .append(opcoesDoCartao)
         .append(conteudoNovoCartao)
         .attr('id', 'cartao' + contador);
@@ -128,6 +141,51 @@ function salvaCartaoJquery(evento) {
 
     //OU
     //$('<div>').addClass('cartao').append(conteudoNovoCartao).prependTo(novoCartao);
-
-
 }
+
+function decideTamanhoCartao(conteudo) {
+    console.log('decideTamanhoCartao()');
+
+    var quebras = conteudo.split('<br>').length;
+    console.log("quebras: " + quebras);
+
+    var totalDeLetras = conteudo.replace(/<br>/g, ' ').length;
+
+    var ultimoMaior = '';
+
+    conteudo.replace(/<br>/g, ' ')
+        .split(' ')
+        .forEach(function(palavra) {
+            if (palavra.length > ultimoMaior.length) {
+                ultimoMaior = palavra;
+            }
+        }, this);
+
+    var tamMaior = ultimoMaior.length;
+
+    //no minimo, todo cartao tem o texto pequeno
+    var tipoCartao = 'cartao--textoPequeno';
+
+    if (tamMaior < 9 && quebras < 5 && totalDeLetras < 55) {
+        tipoCartao = 'cartao--textoGrande';
+    } else if (tamMaior < 12 && quebras < 6 && totalDeLetras < 75) {
+        tipoCartao = 'cartao--textoMedio';
+    }
+
+    return tipoCartao;
+}
+
+$('#busca').on('input', function() {
+    //guarda o valor digitado, removendo espaços extras
+    var busca = $(this).val().trim();
+
+    if (busca.length) {
+        $('.cartao').hide().filter(function() {
+            return $(this).find('.cartao-conteudo')
+                .text()
+                .match(new RegExp(busca, 'i')); // padrão, flag
+        }).show();
+    } else {
+        $('.cartao').show();
+    }
+});
