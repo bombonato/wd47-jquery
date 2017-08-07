@@ -112,12 +112,19 @@ function salvaCartaoJquery(evento) {
     //if (textoDigitado.length <= 0) return;
     if (!textoDigitado) return;
 
+    criarCartao(textoDigitado);
+}
+
+function criarCartao(conteudo, cor = 'EBEF40') {
+
+    var contador = $('.cartao').length;
+
     contador++;
 
     // Criando o conteúdo do novo Cartão
     // .text() pega como texto puro, não interpreta o html
     //var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').text(textoDigitado); 
-    var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').html(textoDigitado);
+    var conteudoNovoCartao = $('<p>').addClass('cartao-conteudo').html(conteudo);
     console.log(conteudoNovoCartao);
 
     // Opções do Cartãos
@@ -130,7 +137,7 @@ function salvaCartaoJquery(evento) {
     var opcoesDoCartao = $('<div>').addClass('opcoesDoCartao')
         .append(botaoRemove);
 
-    var tamanhoCartao = decideTamanhoCartao(textoDigitado);
+    var tamanhoCartao = decideTamanhoCartao(conteudo);
     console.log('classe tam cartao: ' + tamanhoCartao);
 
     // Criando a div do novo Cartao e adicionar o Botão e o Conteudo
@@ -139,7 +146,8 @@ function salvaCartaoJquery(evento) {
         .addClass(tamanhoCartao)
         .append(opcoesDoCartao)
         .append(conteudoNovoCartao)
-        .attr('id', 'cartao' + contador);
+        .attr('id', 'cartao' + contador)
+        .css('background-color', cor);
     console.log(novoCartao);
 
     // Atibuindo a section
@@ -181,17 +189,94 @@ function decideTamanhoCartao(conteudo) {
     return tipoCartao;
 }
 
+// Qualquer alteraçãod no campo input pode-se utilizar
+// o evento 'input' que captura keyup, kepress, paste, etc
+// .on() - função jQuery para tratamento de eventos
 $('#busca').on('input', function() {
     //guarda o valor digitado, removendo espaços extras
+    // this - neste contexto é o cara que sofreu o evento, foi
+    //encapsulado com $() para forçar que é do jQuery
     var busca = $(this).val().trim();
 
     if (busca.length) {
-        $('.cartao').hide().filter(function() {
-            return $(this).find('.cartao-conteudo')
-                .text()
-                .match(new RegExp(busca, 'i')); // padrão, flag
-        }).show();
+        $('.cartao')
+            .hide() // começa escondendo tudo
+            .filter(function() { //vai aplicar o filtro para cada cartão (caso true)
+                //this representa o Input, colocando dentro do $() expande
+                //com as funcionalidades do jquery
+                return $(this).find('.cartao-conteudo') //aqui this é o cartão
+                    .text()
+                    // tem que usar o RegExp pois se usar o \busca\i 
+                    // é a regex literal, e não buscaria o valor da variável
+                    // Usou-se o RegExp pois tinhamos uma variável
+                    .match(new RegExp(busca, 'i')); // padrão, flag
+            }).show(); // só mostra com os casos que o filtro pegou
     } else {
         $('.cartao').show();
     }
+});
+
+//$('#ajuda').click(function buscaAjudaDoServidor() {
+//one() só vai executar uma vez, se chamar o "?" só inseri 1 vez
+$('#ajuda').one('click', function buscaAjudaDoServidor() {
+    $.getJSON('http://ceep.herokuapp.com/cartoes/instrucoes',
+        function(dados) {
+            console.log(dados.instrucoes);
+            $.each(dados.instrucoes, function() {
+                var cartao = this;
+                console.log(cartao.conteudo);
+                criarCartao(cartao.conteudo, cartao.cor);
+            });
+        })
+});
+
+$('#sync').click(function() {
+
+    $('#sync').removeClass('botaoSync--sincronizado');
+    $('#sync').addClass('botaoSync--esperando');
+
+    var cartoes = [];
+    $(".cartao").each(function() {
+        var cartao = $(this); // this, aumentado com jQuery, corresponde ao cartao
+        //var conteudo = cartao.find(".cartao-conteudo").text(); // text() elimina o html
+        var conteudo = cartao.find(".cartao-conteudo").html(); // para ir os códigos html
+        var cor = cartao.css('background-color');
+        cartoes.push({
+            conteudo: conteudo,
+            cor: cor
+        });
+
+        console.log(cartoes);
+        //Outro jeito
+        //var cartao = {};
+        //cartao.conteudo = $(this).find(".cartao-conteudo").html();
+        //cartoes.push(cartao);
+    });
+
+    //define nome de usuário
+    var mural = {
+        usuario: 'john.doe@whoiam.io',
+        cartoes: cartoes
+    }
+
+    /* Ver cartoes adicionados em:
+       http://ceep.herokuapp.com/cartoes/carregar?usuario=john.doe@whoiam.io
+    */
+    $.ajax({
+        url: 'http://ceep.herokuapp.com/cartoes/salvar',
+        method: 'POST',
+        data: mural,
+        dataType: 'json', // o que espera de retorno do servidor
+        success: function(res) {
+            $('#sync').addClass('botaoSync--sincronizado');
+            console.log(res.quantidade + ' cartoes salvos em ' + res.usuario);
+        },
+        error: function() {
+            $('#sync').addClass('botaoSync--deuRuim');
+            console.log('Nao foi possivel salvar o mural');
+        },
+        complete: function() {
+            $('#sync').removeClass('botaoSync--esperando');
+        }
+    });
 });
