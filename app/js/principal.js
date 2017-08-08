@@ -1,3 +1,6 @@
+//CONFIGURACAO
+var usuario = 'john.doe@whoiam.io';
+
 // para esta função, usar onclick="alterarLayout()" como propriedade do botão no HTML
 function alterarLayout() {
     document.querySelector(".mural").classList.toggle("mural--linhas");
@@ -230,6 +233,7 @@ $('#ajuda').one('click', function buscaAjudaDoServidor() {
         })
 });
 
+
 $('#sync').click(function() {
 
     $('#sync').removeClass('botaoSync--sincronizado');
@@ -254,8 +258,9 @@ $('#sync').click(function() {
     });
 
     //define nome de usuário
+
     var mural = {
-        usuario: 'john.doe@whoiam.io',
+        usuario: usuario,
         cartoes: cartoes
     }
 
@@ -280,3 +285,14 @@ $('#sync').click(function() {
         }
     });
 });
+
+$.getJSON(
+    'http://ceep.herokuapp.com/cartoes/carregar?callback=?', { usuario: usuario },
+    function(res) {
+        var cartoes = res.cartoes;
+        console.log(cartoes.length + ' carregados em ' + res.usuario);
+        cartoes.forEach(function(cartao) {
+            criarCartao(cartao.conteudo, cartao.cor);
+        })
+    }
+)
