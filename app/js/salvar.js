@@ -1,5 +1,33 @@
 // ##### COM JQUERY ######
-var contador = $('.cartao').length;
+// Refatorada com Arrow Function e encapsulada
+// jQuery() ou $() - para indicar o uso do jQuery
+// Não retorna um elemento do DOM, mas um objeto jQuery
+// $('.novoCartao').submit((evento) => {
+//     evento.preventDefault(); //prevenir a execução do evento default, no caso não executr o submit
+
+//     // Obtendo dados digitados pelo usuário
+//     // https://regex101.com/
+//     var campoConteudo = $('.novoCartao-conteudo', this);
+//     console.log(campoConteudo);
+//     var textoDigitado = campoConteudo.val()
+//         .trim()
+//         .replace(/\n/g, '<br>')
+//         .replace(/(\*\*)(\w+)(\*\*)/g, function(match, p1, p2, p3, offset, string) {
+//             return '<b>' + p2 + '</b>';
+//         })
+//         .replace(/(\*)(\w+)(\*)/g, function(match, p1, p2, p3, offset, string) {
+//             return '<em>' + p2 + '</em>';
+//         });
+//     console.log("tam (" + textoDigitado.length + ")");
+//     console.log(textoDigitado);
+
+//     if (!textoDigitado) return;
+
+//     criarCartao(textoDigitado);
+// });
+
+// ##### COM JQUERY ######
+//var contador = $('.cartao').length;
 // jQuery() ou $() - para indicar o uso do jQuery
 // Não retorna um elemento do DOM, mas um objeto jQuery
 $('.novoCartao').submit(salvaCartaoJquery);
@@ -10,6 +38,7 @@ function salvaCartaoJquery(evento) {
     // Obtendo dados digitados pelo usuário
     // https://regex101.com/
     var campoConteudo = $('.novoCartao-conteudo', this);
+    console.log(campoConteudo);
     var textoDigitado = campoConteudo.val()
         .trim()
         .replace(/\n/g, '<br>')
@@ -29,7 +58,8 @@ function salvaCartaoJquery(evento) {
     //if (textoDigitado.length <= 0) return;
     if (!textoDigitado) return;
 
-    criarCartao(textoDigitado);
+    //criarCartao(textoDigitado);
+    controladorCartoes.cria(textoDigitado);
 }
 
 // ### JAVASCRIPT PURO ####

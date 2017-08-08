@@ -7,7 +7,8 @@ $('#ajuda').one('click', function buscaAjudaDoServidor() {
             $.each(dados.instrucoes, function() {
                 var cartao = this;
                 console.log(cartao.conteudo);
-                criarCartao(cartao.conteudo, cartao.cor);
+                //criarCartao(cartao.conteudo, cartao.cor);
+                controladorCartoes.cria(cartao.conteudo, cartao.cor);
             });
         })
 });

@@ -8,7 +8,8 @@ $.getJSON(
         var cartoes = res.cartoes;
         console.log(cartoes.length + ' carregados em ' + res.usuario);
         cartoes.forEach(function(cartao) {
-            criarCartao(cartao.conteudo, cartao.cor);
+            //criarCartao(cartao.conteudo, cartao.cor);
+            controladorCartoes.cria(cartao.conteudo, cartao.cor);
         })
     }
 )
