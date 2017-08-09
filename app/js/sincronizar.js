@@ -1,4 +1,14 @@
+//$('#sync').click(sincronizaCartoes);
+//EMITE o EVENTO
 $('#sync').click(function() {
+    //$(document).trigger('sincronizaEvent');
+    principal.sincroEvent();
+});
+
+//CAPTURA o EVENTO
+$(document).one('sincronizaEvent', sincronizaCartoes);
+
+function sincronizaCartoes() {
 
     $('#sync').removeClass('botaoSync--sincronizado');
     $('#sync').addClass('botaoSync--esperando');
@@ -24,7 +34,7 @@ $('#sync').click(function() {
     //define nome de usuário
 
     var mural = {
-        usuario: usuario,
+        usuario: principal.usuario,
         cartoes: cartoes
     }
 
@@ -48,4 +58,4 @@ $('#sync').click(function() {
             $('#sync').removeClass('botaoSync--esperando');
         }
     });
-});
+}

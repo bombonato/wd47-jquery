@@ -60,6 +60,7 @@ function salvaCartaoJquery(evento) {
 
     //criarCartao(textoDigitado);
     controladorCartoes.cria(textoDigitado);
+    principal.sincroEvent();
 }
 
 // ### JAVASCRIPT PURO ####
