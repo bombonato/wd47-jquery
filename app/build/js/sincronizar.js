@@ -2,6 +2,7 @@
 //EMITE o EVENTO
 $('#sync').click(function() {
     //$(document).trigger('sincronizaEvent');
+    console.log("Botao sync");
     principal.sincroEvent();
 });
 
@@ -10,6 +11,8 @@ $(document).one('sincronizaEvent', sincronizaCartoes);
 
 function sincronizaCartoes() {
 
+
+    console.log('sincronizaCartoes()...');
     $('#sync').removeClass('botaoSync--sincronizado');
     $('#sync').addClass('botaoSync--esperando');
 

@@ -27,9 +27,10 @@ body {
     transition: .2s ease-in;
 }
 
-#mudaLayout {
+
+/*#mudaLayout {
     display: none;
-}
+}*/
 
 
 /*depois do tam definido, ele tratará diferentemente.*/
@@ -55,9 +56,9 @@ body {
     .mural--linhas .cartao {
         width: auto;
     }
-    #mudaLayout {
+    /*#mudaLayout {
         display: inline-block;
-    }
+    }*/
 }
 
 .container {

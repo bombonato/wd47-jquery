@@ -1,0 +1,18 @@
+{
+  "name": "ceep",
+  "homepage": "https://github.com/bombonato/wd47-jquery",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "animate.css": "^3.5.2"
+  }
+}

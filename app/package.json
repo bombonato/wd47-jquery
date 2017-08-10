@@ -1,0 +1,31 @@
+{
+  "name": "ceep",
+  "version": "0.0.1",
+  "description": "Ceep - WD47-jQuery",
+  "main": "index.html",
+  "dependencies": {
+    "bower": "^1.8.0"
+  },
+  "devDependencies": {
+    "del": "^3.0.0",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-if": "^2.0.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-useref": "^3.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bombonato/wd47-jquery.git"
+  },
+  "author": "Fabio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bombonato/wd47-jquery/issues"
+  },
+  "homepage": "https://github.com/bombonato/wd47-jquery#readme"
+}

@@ -3,7 +3,8 @@ var timer;
 var controladorCartoes = (function($) {
     'use strict'; // cap7,pg91 - adiciona modo estrito, limitando e restringindo uso do javascript
 
-    function criarCartao(conteudo, cor = 'EBEF40') {
+    //function criarCartao(conteudo, cor = 'EBEF40') {
+    function criarCartao(conteudo, cor) {
 
         var contador = $('.cartao').length;
 
@@ -58,6 +59,8 @@ var controladorCartoes = (function($) {
 
         // Atibuindo a section
         $('.mural').prepend(novoCartao);
+        // $('.cabecalho-logo').animateCss('bounce');
+        novoCartao.animateCss('bounce');
 
         //OU
         //$('<div>').addClass('cartao').append(conteudoNovoCartao).prependTo(novoCartao);
@@ -121,7 +124,7 @@ var controladorCartoes = (function($) {
         ];
 
         var opcoesDeCor = $("<div>").addClass("opcoesDoCartao-cores")
-                            .attr('data-corref', idDoCartao);
+            .attr('data-corref', idDoCartao);
 
         $.each(cores, function() {
             var cor = this;
@@ -146,8 +149,9 @@ var controladorCartoes = (function($) {
             opcoesDeCor.append(radioCor).append(labelRadioCor);
         });
 
-        opcoesDeCor.on('change', function(event){
-            if(event.target.classList.contains('opcoesDoCartao-radioCor')){
+        opcoesDeCor.on('change', function(event) {
+            console.log();
+            if (event.target.classList.contains('opcoesDoCartao-radioCor')) {
                 var cor = $(event.target);
                 console.log('data-: ' + $(this).data('corref'));
                 //var cartao = $('#cartao_' + $(this).data('corref'));
@@ -156,6 +160,7 @@ var controladorCartoes = (function($) {
                 console.log('cor selecionada:' + cor.val());
                 //$(document).trigger('sincronizaEvent');
                 principal.sincroEvent();
+
             }
         });
 
