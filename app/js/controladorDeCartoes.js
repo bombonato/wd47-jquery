@@ -120,7 +120,8 @@ var controladorCartoes = (function($) {
             { nome: "Inspiração", codigo: "#76EF40" }
         ];
 
-        var opcoesDeCor = $("<div>").addClass("opcoesDoCartao-cores");
+        var opcoesDeCor = $("<div>").addClass("opcoesDoCartao-cores")
+                            .attr('data-corref', idDoCartao);
 
         $.each(cores, function() {
             var cor = this;
@@ -143,6 +144,19 @@ var controladorCartoes = (function($) {
                 .attr("for", idRadioCor);
 
             opcoesDeCor.append(radioCor).append(labelRadioCor);
+        });
+
+        opcoesDeCor.on('change', function(event){
+            if(event.target.classList.contains('opcoesDoCartao-radioCor')){
+                var cor = $(event.target);
+                console.log('data-: ' + $(this).data('corref'));
+                //var cartao = $('#cartao_' + $(this).data('corref'));
+                var cartao = $('#' + $(this).data('corref'));
+                cartao.css('background-color', cor.val());
+                console.log('cor selecionada:' + cor.val());
+                //$(document).trigger('sincronizaEvent');
+                principal.sincroEvent();
+            }
         });
 
         return opcoesDeCor;
